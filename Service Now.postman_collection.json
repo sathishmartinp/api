@@ -1,0 +1,342 @@
+{
+	"info": {
+		"_postman_id": "fc8bfee2-a4fe-4068-9a26-f87ff2705f09",
+		"name": "Service Now",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "incidents",
+			"item": [
+				{
+					"name": "Get all incidents",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://dev79183.service-now.com/api/now/table/incident?sysparm_fields=number,short_description,category",
+							"protocol": "https",
+							"host": [
+								"dev79183",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"incident"
+							],
+							"query": [
+								{
+									"key": "sysparm_fields",
+									"value": "number,short_description,category"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an incident",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\":\"postman req\",\r\n    \"short_description\":\"create incident with minimal fields\"\r\n    \r\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "https://dev79183.service-now.com/api/now/table/incident?sysparm_fields=number,category",
+							"protocol": "https",
+							"host": [
+								"dev79183",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"incident"
+							],
+							"query": [
+								{
+									"key": "sysparm_fields",
+									"value": "number,category"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "change management",
+			"item": [
+				{
+					"name": "Get all change req",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://dev79183.service-now.com/api/now/table/change_request?sysparm_fields=number,short_description,category&sysparm_limit=20",
+							"protocol": "https",
+							"host": [
+								"dev79183",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"change_request"
+							],
+							"query": [
+								{
+									"key": "sysparm_fields",
+									"value": "number,short_description,category"
+								},
+								{
+									"key": "sysparm_limit",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all change req Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\":\"Software Change\",\r\n    \"description\":\"Change\",\r\n    \"reason\":\"Requirement not met\",\r\n    \"short_description\":\"Test post req from postman\"\r\n\r\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "https://dev79183.service-now.com/api/now/table/change_request?sysparm_fields=number,short_description,category",
+							"protocol": "https",
+							"host": [
+								"dev79183",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"change_request"
+							],
+							"query": [
+								{
+									"key": "sysparm_fields",
+									"value": "number,short_description,category"
+								},
+								{
+									"key": "sysparm_limit",
+									"value": "20",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Jira",
+			"item": [
+				{
+					"name": "Get the issues",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "60beSkCr05XHzsMLUfVYD8A7",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "hari.radhakrishnan@testleaf.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api-may2020.atlassian.net/rest/api/2/search?jql-project=RA",
+							"protocol": "https",
+							"host": [
+								"api-may2020",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"2",
+								"search"
+							],
+							"query": [
+								{
+									"key": "jql-project",
+									"value": "RA"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the issues Copy",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "60beSkCr05XHzsMLUfVYD8A7",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "hari.radhakrishnan@testleaf.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fields\": {\r\n       \"project\":\r\n       {\r\n          \"key\": \"RA\"\r\n       },\r\n       \"summary\": \"New Defect\",\r\n       \"description\": \"Creating of an issue using project keys and issue type names using the REST API\",\r\n       \"issuetype\": {\r\n          \"name\": \"Bug\"\r\n       }\r\n   }\r\n}\r\n"
+						},
+						"url": {
+							"raw": "https://api-may2020.atlassian.net/rest/api/2/issue",
+							"protocol": "https",
+							"host": [
+								"api-may2020",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"2",
+								"issue"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "Common1@",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "admin",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "02c391fd-4a1e-4844-a503-c8bb0951d466",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "e08f9508-fe2a-46cc-8b56-4f54a07218d2",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
