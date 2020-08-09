@@ -1,0 +1,348 @@
+{
+	"info": {
+		"_postman_id": "e904b40b-cf85-47ef-855b-0b5a57db4b98",
+		"name": "Service Now Jenkins",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "change management",
+			"item": [
+				{
+					"name": "Get all change req",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ee4547ff-3d4d-4409-bb91-8e14edce5b9f",
+								"exec": [
+									"// var num = Math.random();\r",
+									"// console.log(Math.random());\r",
+									"// console.log(Math.round(num));\r",
+									"\r",
+									"pm.test('Get random sys id and store in global var', function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"    if (responseCode.code === 200) {\r",
+									"        var jsonData = pm.response.json();\r",
+									"        var len = jsonData.result.length;\r",
+									"        var num = Math.round(Math.random() * len);\r",
+									"\r",
+									"        var sysId = jsonData.result[num].sys_id;\r",
+									"        pm.globals.set(\"global_sys_id\", sysId);\r",
+									"        console.log(sysId);\r",
+									"    }\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{server}}/api/now/table/{{change_request}}?sysparm_fields=number,short_description,category,state,sys_id&sysparm_limit=20",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"{{change_request}}"
+							],
+							"query": [
+								{
+									"key": "sysparm_fields",
+									"value": "number,short_description,category,state,sys_id"
+								},
+								{
+									"key": "sysparm_limit",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new change req",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6261cd52-253e-4f3b-8324-253ba01384b9",
+								"exec": [
+									"pm.test('Test the status code', function() {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test('Test the string in response', function() {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.result.short_description).to.eql(pm.environment.get(\"short_desc\"));\r",
+									"    pm.expect(jsonData.result.type).to.eql(pm.environment.get(\"type\"));\r",
+									"    var sysId = jsonData.result.sys_id;\r",
+									"    pm.globals.set(\"global_sys_id\", sysId);\r",
+									"    // console.log(sysId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "60f81f80-7c30-48ac-8050-795652c25284",
+								"exec": [
+									"var short_d = data[\"short_desc\"];\r",
+									"pm.environment.set(\"short_desc\", short_d);\r",
+									"\r",
+									"var type_d = data[\"type\"];\r",
+									"pm.environment.set(\"type\", type_d);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\":\"Software Change\",\r\n    \"description\":\"Change\",\r\n    \"reason\":\"Requirement not met\",\r\n    \"short_description\": \"{{short_desc}}\",\r\n    \"type\": \"{{type}}\"\r\n\r\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/now/table/{{change_request}}?sysparm_fields=number,short_description,category,state,type,sys_id",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"{{change_request}}"
+							],
+							"query": [
+								{
+									"key": "sysparm_fields",
+									"value": "number,short_description,category,state,type,sys_id"
+								},
+								{
+									"key": "sysparm_limit",
+									"value": "20",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modify the existing change req",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a9fcc2b2-5914-4416-b652-6bb509d6c7cf",
+								"exec": [
+									"var response = pm.response.json();\r",
+									"var sysId = response.result.sys_id;\r",
+									"console.log(sysId);\r",
+									"pm.globals.set(\"global_sys_id\", sysId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\":\"Software Change\",\r\n    \"description\":\"Update my change request\",\r\n    \"reason\":\"Requirement not met\",\r\n    \"short_description\":\"Update req from postman\",\r\n    \"state\": \"emergency\"\r\n\r\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/now/table/{{change_request}}/{{global_sys_id}}",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"{{change_request}}",
+								"{{global_sys_id}}"
+							],
+							"query": [
+								{
+									"key": "sysparm_fields",
+									"value": "number,short_description,category",
+									"disabled": true
+								},
+								{
+									"key": "sysparm_limit",
+									"value": "20",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete the existing change req",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2e133436-a521-43cf-9f22-8efb84c8d5b0",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/now/table/{{change_request}}/{{global_sys_id}}",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"{{change_request}}",
+								"{{global_sys_id}}"
+							],
+							"query": [
+								{
+									"key": "sysparm_fields",
+									"value": "number,short_description,category",
+									"disabled": true
+								},
+								{
+									"key": "sysparm_limit",
+									"value": "20",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "Common1@",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "admin",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "c5978271-bbe9-433a-8245-21cc409629b0",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "6e84420d-609c-4b98-9ea4-d87fea498b04",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "e33367cc-721c-41dd-ab97-d27c5eae6e37",
+			"key": "table",
+			"value": "incident"
+		},
+		{
+			"id": "86d46950-68aa-46c1-8fed-55f71cb0dc60",
+			"key": "change_request",
+			"value": "change_request"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

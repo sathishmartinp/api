@@ -1,0 +1,11 @@
+[
+	{
+		"short_desc": "first data from json",
+		"type": "normal"
+	},
+	
+	{
+		"short_desc": "second data from json",
+		"type": "emergency"
+	}
+]

@@ -1,0 +1,14 @@
+{
+	"id": "5d74b8e2-dd16-4e15-8da1-8bede528c6ea",
+	"values": [
+		{
+			"key": "global_sys_id",
+			"value": "",
+			"enabled": true
+		}
+	],
+	"name": "My Workspace Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2020-08-09T10:15:52.629Z",
+	"_postman_exported_using": "Postman/7.29.1"
+}
